@@ -13,7 +13,12 @@ function Home() {
     }
 
     useEffect(() => {
-        document.querySelector('html').classList.add(localStorage.getItem('theme'))
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.querySelector('html').classList.add('dark')
+        } else {
+            document.querySelector('html').classList.remove('dark')
+        }
+        localStorage.removeItem('theme')
     }, []);
 
     return (
@@ -22,8 +27,8 @@ function Home() {
                 <div className="bg-white dark:bg-gray-800 shadow p-4 rounded-lg mb-6 flex items-center justify-between">
                     <div className="font-semibold text-lg text-gray-800 dark:text-gray-200">Switcher</div>
                     <div>
-                        <button onClick={()=>selectTheme('light')} className='bg-gray-200 w-6 h-6 rounded-full focus:outline-none mr-2'></button>
-                        <button onClick={()=>selectTheme('dark')} className='bg-black w-6 h-6 rounded-full focus:outline-none'></button>
+                        <button onClick={() => selectTheme('light')} className='bg-gray-200 w-6 h-6 rounded-full focus:outline-none mr-2'></button>
+                        <button onClick={() => selectTheme('dark')} className='bg-black w-6 h-6 rounded-full focus:outline-none'></button>
                     </div>
                 </div>
                 <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
